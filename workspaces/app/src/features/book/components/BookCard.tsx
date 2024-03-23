@@ -32,18 +32,27 @@ const _AvatarWrapper = styled.div`
   }
 `;
 
-type Props = {
-  bookId: string;
+interface BookCardBook {
+  id: string;
+  name: string;
+  author: {
+    name: string;
+  };
+  image: {
+    alt: string;
+  };
 };
 
-const BookCard: React.FC<Props> = ({ bookId }) => {
-  const { data: book } = useBook({ params: { bookId } });
 
-  const imageUrl = useImage({ height: 128, imageId: book.image.id, width: 192 });
-  const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, width: 32 });
+type Props = {
+  book: BookCardBook;
+  imageUrl?: string;
+  authorImageUrl?: string;
+};
 
+const BookCard: React.FC<Props> = ({ book, imageUrl, authorImageUrl }) => {
   return (
-    <_Wrapper href={`/books/${bookId}`}>
+    <_Wrapper href={`/books/${book.id}`}>
       {imageUrl != null && (
         <_ImgWrapper>
           <Image alt={book.image.alt} height={128} objectFit="cover" src={imageUrl} width={192} />
