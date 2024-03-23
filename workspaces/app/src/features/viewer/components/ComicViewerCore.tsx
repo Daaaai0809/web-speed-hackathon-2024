@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { addUnitIfNeeded } from '../../../lib/css/addUnitIfNeeded';
 import { useEpisode } from '../../episode/hooks/useEpisode';
 
-import { ComicViewerPage } from './ComicViewerPage';
+import { ComicViewerPages } from './ConmiViewerPages';
 
 const IMAGE_WIDTH = 1075;
 const IMAGE_HEIGHT = 1518;
@@ -207,12 +207,25 @@ const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
     };
   }, [pageCountParView, pageWidth, scrollView]);
 
+  const [pageData, setPageData] = useState<{ id: string; pageImageId: string }[]>([]);
+
+  useEffect(() => {
+    if (episode == null) {
+      return;
+    }
+
+    setPageData(
+      episode.pages.map((page) => ({
+        id: page.id,
+        pageImageId: page.image.id,
+      })),
+    );
+  }, [episode]);
+
   return (
     <_Container ref={containerRef}>
       <_Wrapper ref={scrollViewRef} $paddingInline={viewerPaddingInline} $pageWidth={pageWidth}>
-        {episode.pages.map((page) => {
-          return <ComicViewerPage key={page.id} pageImageId={page.image.id} />;
-        })}
+        <ComicViewerPages props={pageData} />
       </_Wrapper>
     </_Container>
   );
