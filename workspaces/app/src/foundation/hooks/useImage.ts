@@ -9,7 +9,7 @@ export const useImages = async ({ height, imageIds, width }: { height: number; i
 
       const img = new Image();
       img.src = getImageUrl({
-        format: 'jpg',
+        format: 'webp',
         height: height * dpr,
         imageId,
         width: width * dpr,
@@ -53,7 +53,7 @@ export const useImage = async ({ height, imageId, width }: { height: number; ima
 
     const img = new Image();
     img.src = getImageUrl({
-      format: 'jpg',
+      format: 'webp',
       height: height * dpr,
       imageId,
       width: width * dpr,

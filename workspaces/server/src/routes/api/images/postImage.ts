@@ -55,7 +55,7 @@ app.openapi(route, async (c) => {
     recursive: true,
   });
   await fs.writeFile(
-    path.resolve(IMAGES_PATH, `./${result.value.id}.jpg`),
+    path.resolve(IMAGES_PATH, `./${result.value.id}.webp`),
     Buffer.from(await formData.content.arrayBuffer()),
   );
 
