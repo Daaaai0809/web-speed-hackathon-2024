@@ -1,4 +1,4 @@
-import { Suspense, useMemo } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 
 import type { GetBookListResponse } from '@wsh-2024/schema/src/api/books/GetBookListResponse';
 
@@ -7,6 +7,7 @@ import { Flex } from '../../../foundation/components/Flex';
 import { Text } from '../../../foundation/components/Text';
 import { Color, Typography } from '../../../foundation/styles/variables';
 import { isContains } from '../../../lib/filter/isContains';
+import { useImages } from '../../../foundation/hooks/useImage';
 
 type Props = {
   books: GetBookListResponse;
@@ -23,6 +24,16 @@ export const SearchResult: React.FC<Props> = ({ books, keyword }) => {
     });
   }, [books, keyword]);
 
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (relatedBooks.length > 0) {
+      useImages({ height: 64, imageIds: relatedBooks.map((book) => book.image.id), width: 64 }).then((urls) =>
+        setImageUrls(urls),
+      );
+    }
+  }, [relatedBooks]);
+
   return (
     <Flex align="center" as="ul" direction="column" justify="center">
       <Suspense
@@ -32,8 +43,8 @@ export const SearchResult: React.FC<Props> = ({ books, keyword }) => {
           </Text>
         }
       >
-        {relatedBooks.map((book) => (
-          <BookListItem key={book.id} bookId={book.id} />
+        {relatedBooks.map((book, index) => (
+          <BookListItem key={book.id} book={book} imageUrl={imageUrls[index]} />
         ))}
         {relatedBooks.length === 0 && (
           <Text color={Color.MONO_100} typography={Typography.NORMAL14}>
