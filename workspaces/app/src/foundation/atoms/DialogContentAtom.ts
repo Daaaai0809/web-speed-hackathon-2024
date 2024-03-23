@@ -1,5 +1,4 @@
 import { atom } from 'jotai';
-import $ from 'jquery';
 
 const StateAtom = atom<JSX.Element | null>(null);
 
@@ -9,11 +8,12 @@ export const DialogContentAtom = atom(
   },
   (_get, set, content: JSX.Element | null) => {
     const isOpen = content != null;
+    const bodyElement = document.querySelector('body');
 
     if (isOpen) {
-      $('body').css('overflow', 'hidden');
+      bodyElement?.classList.add('no-scroll');
     } else {
-      $('body').css('overflow', 'scroll');
+      bodyElement?.classList.remove('no-scroll');
     }
 
     set(StateAtom, content);

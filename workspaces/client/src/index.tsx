@@ -1,6 +1,5 @@
 // import './side-effects';
 
-import $ from 'jquery';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { SWRConfig } from 'swr';
@@ -11,24 +10,37 @@ import { ClientApp } from '@wsh-2024/app/src/index';
 import { preloadImages } from './utils/preloadImages';
 import { registerServiceWorker } from './utils/registerServiceWorker';
 
+
 const main = async () => {
   await registerServiceWorker();
   // await preloadImages();
 
-  $(document).ready(() => {
-    if (window.location.pathname.startsWith('/admin')) {
-      ReactDOM.createRoot($('#root').get(0)!).render(<AdminApp />);
-    } else {
-      ReactDOM.hydrateRoot(
-        $('#root').get(0)!,
-        <SWRConfig value={{ revalidateIfStale: true, revalidateOnFocus: false, revalidateOnReconnect: false }}>
-          <BrowserRouter>
-            <ClientApp />
-          </BrowserRouter>
-        </SWRConfig>,
-      );
+  if (window.location.pathname.startsWith('/admin')) {
+    ReactDOM.createRoot(document.getElementById('root')!).render(<AdminApp />);
+  } else {
+    ReactDOM.hydrateRoot(
+      document.getElementById('root')!,
+      <SWRConfig value={{ revalidateIfStale: true, revalidateOnFocus: false, revalidateOnReconnect: false }}>
+        <BrowserRouter>
+          <ClientApp />
+        </BrowserRouter>
+      </SWRConfig>,
+    );
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        rootElement.classList.remove('loading');
+      }
+    });
+  } else {
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      rootElement.classList.remove('loading');
     }
-  });
+  }
 };
 
-main().catch(console.error);
+main().catch(console.error);;
