@@ -2,7 +2,8 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { SvgIcon } from './features/icons/components/SvgIcon';
+// import { SvgIcon } from './features/icons/components/SvgIcon';
+import { ArrowBack } from '@mui/icons-material';
 import { Link } from './foundation/components/Link';
 import { Text } from './foundation/components/Text';
 import { ActionLayout } from './foundation/layouts/ActionLayout';
@@ -34,7 +35,8 @@ export const Router: React.FC = () => {
           <ActionLayout
             leftContent={
               <_BackToTopButton href={'/'}>
-                <SvgIcon color={Color.MONO_100} height={32} type="ArrowBack" width={32} />
+                {/* <SvgIcon color={Color.MONO_100} height={32} type="ArrowBack" width={32} /> */}
+                <ArrowBack style={{ color: Color.MONO_100, height: 32, width: 32 }} />
                 <Text color={Color.MONO_100} typography={Typography.NORMAL16} weight="bold">
                   トップへ戻る
                 </Text>

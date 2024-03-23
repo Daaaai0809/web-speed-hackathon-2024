@@ -1,7 +1,8 @@
 import { useAtom } from 'jotai';
 import styled from 'styled-components';
 
-import { SvgIcon } from '../../features/icons/components/SvgIcon';
+// import { SvgIcon } from '../../features/icons/components/SvgIcon';
+import { Close } from '@mui/icons-material';
 import { DialogContentAtom } from '../atoms/DialogContentAtom';
 import { Color, Space } from '../styles/variables';
 
@@ -51,7 +52,8 @@ export const Dialog: React.FC = () => {
     <_Overlay>
       <_Wrapper>
         <_CloseButton onClick={() => updateContent(null)}>
-          <SvgIcon color={Color.MONO_A} height={32} type="Close" width={32} />
+          {/* <SvgIcon color={Color.MONO_A} height={32} type="Close" width={32} /> */}
+          <Close style={{ color: Color.MONO_A, height: 32, width: 32 }} />
         </_CloseButton>
         <_Container>{content}</_Container>
       </_Wrapper>
