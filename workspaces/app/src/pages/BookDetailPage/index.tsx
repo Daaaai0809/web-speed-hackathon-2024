@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai/react';
-import { Suspense, useCallback } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { RouteParams } from 'regexparam';
 import { styled } from 'styled-components';
@@ -7,8 +7,6 @@ import invariant from 'tiny-invariant';
 
 import { FavoriteBookAtomFamily } from '../../features/book/atoms/FavoriteBookAtomFamily';
 import { useBook } from '../../features/book/hooks/useBook';
-import { EpisodeListItem } from '../../features/episode/components/EpisodeListItem';
-import { useEpisodeList } from '../../features/episode/hooks/useEpisodeList';
 import { Box } from '../../foundation/components/Box';
 import { Flex } from '../../foundation/components/Flex';
 import { Image } from '../../foundation/components/Image';
@@ -20,6 +18,7 @@ import { useImage } from '../../foundation/hooks/useImage';
 import { Color, Space, Typography } from '../../foundation/styles/variables';
 
 import { BottomNavigator } from './internal/BottomNavigator';
+import { Episodes } from './internal/Eipsodes';
 
 const _HeadingWrapper = styled.section`
   display: grid;
@@ -50,18 +49,26 @@ const BookDetailPage: React.FC = () => {
   invariant(bookId);
 
   const { data: book } = useBook({ params: { bookId } });
-  const { data: episodeList } = useEpisodeList({ query: { bookId } });
 
   const [isFavorite, toggleFavorite] = useAtom(FavoriteBookAtomFamily(bookId));
 
-  const bookImageUrl = useImage({ height: 256, imageId: book.image.id, width: 192 });
-  const auhtorImageUrl = useImage({ height: 32, imageId: book.author.image.id, width: 32 });
+  const [bookImageUrl, setBookImageUrl] = useState("");
+  const [auhtorImageUrl, setAuthorImageUrl] = useState("");
+
+  useImage({ height: 256, imageId: book.image.id, width: 192 }).then((url) => setBookImageUrl(url||""));
+  useImage({ height: 32, imageId: book.author.image.id, width: 32 }).then((url) => setAuthorImageUrl(url||""));
 
   const handleFavClick = useCallback(() => {
     toggleFavorite();
   }, [toggleFavorite]);
 
-  const latestEpisode = episodeList?.find((episode) => episode.chapter === 1);
+  // const latestEpisode = episodeList?.find((episode) => episode.chapter === 1);
+
+  const [latestEpisodeId, setLatestEpisode] = useState("");
+
+  const onSetLatestEpisode = (episodeId: string) => {
+    setLatestEpisode(episodeId);
+  }
 
   return (
     <Box height="100%" position="relative" px={Space * 2}>
@@ -98,34 +105,20 @@ const BookDetailPage: React.FC = () => {
       <BottomNavigator
         bookId={bookId}
         isFavorite={isFavorite}
-        latestEpisodeId={latestEpisode?.id ?? ''}
+        latestEpisodeId={latestEpisodeId}
         onClickFav={handleFavClick}
       />
 
       <Separator />
 
-      <section aria-label="エピソード一覧">
-        <Flex align="center" as="ul" direction="column" justify="center">
-          {episodeList.map((episode) => (
-            <EpisodeListItem key={episode.id} bookId={bookId} episodeId={episode.id} />
-          ))}
-          {episodeList.length === 0 && (
-            <>
-              <Spacer height={Space * 2} />
-              <Text color={Color.MONO_100} typography={Typography.NORMAL14}>
-                この作品はまだエピソードがありません
-              </Text>
-            </>
-          )}
-        </Flex>
-      </section>
+      <Episodes bookId={bookId} setLatestEpisode={onSetLatestEpisode} />
     </Box>
   );
 };
 
 const BookDetailPageWithSuspense: React.FC = () => {
   return (
-    <Suspense fallback={<div style={{height: "100vh"}}></div>}>
+    <Suspense fallback={<div style={{minHeight: "100vh"}}></div>}>
       <BookDetailPage />
     </Suspense>
   );

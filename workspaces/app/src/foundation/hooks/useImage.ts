@@ -47,7 +47,7 @@ export const useImages = async ({ height, imageIds, width }: { height: number; i
   return images;
 };
 
-export const useImage = ({ height, imageId, width }: { height: number; imageId: string; width: number }) => {
+export const useImage = async ({ height, imageId, width }: { height: number; imageId: string; width: number }) => {
   const { value } = useAsync(async () => {
     const dpr = window.devicePixelRatio;
 

@@ -27,7 +27,7 @@ export const ActionLayout: React.FC<Props> = ({ leftContent, rightContent }) => 
         </Flex>
       </_Header>
 
-      <Box as="main" height="100vh" py={Space * 2}>
+      <Box as="main" py={Space * 2}>
         <Outlet />
       </Box>
 

@@ -1,4 +1,4 @@
-import { Suspense, useId } from 'react';
+import { Suspense, useId, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { RouteParams } from 'regexparam';
 import { styled } from 'styled-components';
@@ -14,6 +14,7 @@ import { Spacer } from '../../foundation/components/Spacer';
 import { Text } from '../../foundation/components/Text';
 import { useImage } from '../../foundation/hooks/useImage';
 import { Color, Space, Typography } from '../../foundation/styles/variables';
+import { AuthorBookList } from './AuthorBookList';
 
 const _HeadingWrapper = styled.section`
   display: grid;
@@ -37,7 +38,9 @@ const AuthorDetailPage: React.FC = () => {
 
   const { data: author } = useAuthor({ params: { authorId } });
 
-  const imageUrl = useImage({ height: 128, imageId: author.image.id, width: 128 });
+  const [imageUrl, setImageUrl] = useState("");
+
+  useImage({ height: 128, imageId: author.image.id, width: 128 }).then((url) => setImageUrl(url || ""));
   const bookListA11yId = useId();
 
   return (
@@ -68,19 +71,7 @@ const AuthorDetailPage: React.FC = () => {
 
         <Spacer height={Space * 2} />
 
-        <Flex align="center" as="ul" direction="column" justify="center">
-          {author.books.map((book) => (
-            <BookListItem key={book.id} bookId={book.id} />
-          ))}
-          {author.books.length === 0 && (
-            <>
-              <Spacer height={Space * 2} />
-              <Text color={Color.MONO_100} typography={Typography.NORMAL14}>
-                この作者の作品はありません
-              </Text>
-            </>
-          )}
-        </Flex>
+        <AuthorBookList author={author} />
       </Box>
     </Box>
   );
@@ -88,7 +79,7 @@ const AuthorDetailPage: React.FC = () => {
 
 const AuthorDetailPageWithSuspense: React.FC = () => {
   return (
-    <Suspense fallback={<div style={{height: "100vh"}}></div>}>
+    <Suspense fallback={<div style={{minHeight: "100vh"}}></div>}>
       <AuthorDetailPage />
     </Suspense>
   );

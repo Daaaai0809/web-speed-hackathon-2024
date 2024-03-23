@@ -27,16 +27,20 @@ const _ImgWrapper = styled.div`
   }
 `;
 
+interface IEpisodeListEpisode {
+  id: string;
+  chapter: number;
+  name: string;
+  description: string;
+}
+
 type Props = {
+  episode: IEpisodeListEpisode;
+  imageUrl?: string | null;
   bookId: string;
-  episodeId: string;
 };
 
-export const EpisodeListItem: React.FC<Props> = ({ bookId, episodeId }) => {
-  const { data: episode } = useEpisode({ params: { episodeId } });
-
-  const imageUrl = useImage({ height: 96, imageId: episode.image.id, width: 96 });
-
+export const EpisodeListItem: React.FC<Props> = ({ episode, imageUrl, bookId}) => {
   return (
     <_Wrapper>
       <_Link href={`/books/${bookId}/episodes/${episode.id}`}>

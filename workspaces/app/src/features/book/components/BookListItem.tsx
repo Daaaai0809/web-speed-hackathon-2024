@@ -27,15 +27,18 @@ const _ImgWrapper = styled.div`
   }
 `;
 
+interface IBookListItemBook {
+  id: string;
+  name: string;
+  description: string;
+}
+
 type Props = {
-  bookId: string;
+  book: IBookListItemBook,
+  imageUrl?: string | null,
 };
 
-export const BookListItem: React.FC<Props> = ({ bookId }) => {
-  const { data: book } = useBook({ params: { bookId } });
-
-  const imageUrl = useImage({ height: 64, imageId: book.image.id, width: 64 });
-
+export const BookListItem: React.FC<Props> = ({ book, imageUrl }) => {
   return (
     <_Wrapper>
       <_Link href={`/books/${book.id}`}>
