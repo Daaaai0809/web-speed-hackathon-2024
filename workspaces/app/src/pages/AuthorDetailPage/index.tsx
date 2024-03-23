@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import invariant from 'tiny-invariant';
 
 import { useAuthor } from '../../features/author/hooks/useAuthor';
-import { BookListItem } from '../../features/book/components/BookListItem';
 import { Box } from '../../foundation/components/Box';
 import { Flex } from '../../foundation/components/Flex';
 import { Image } from '../../foundation/components/Image';
