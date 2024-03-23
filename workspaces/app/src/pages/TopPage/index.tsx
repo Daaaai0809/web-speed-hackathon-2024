@@ -29,7 +29,7 @@ const TopPage: React.FC = () => {
 
 const TopPageWithSuspense: React.FC = () => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div style={{height: "100vh"}}></div>}>
       <TopPage />
     </Suspense>
   );

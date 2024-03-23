@@ -42,7 +42,7 @@ const SearchPage: React.FC = () => {
 
 const SearchPageWithSuspense: React.FC = () => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div style={{height: "100vh"}}></div>}>
       <SearchPage />
     </Suspense>
   );

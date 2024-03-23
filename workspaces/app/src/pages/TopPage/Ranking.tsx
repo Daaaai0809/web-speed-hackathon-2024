@@ -24,7 +24,7 @@ export const Ranking = () => {
     }, [rankingList]);
 
     return (
-        <Box aria-labelledby={rankingA11yId} as="section" maxWidth="100%" width="100%" minHeight={"50vh"}>
+        <Box aria-labelledby={rankingA11yId} as="section" maxWidth="100%" width="100%" minHeight="50vh">
           <Text as="h2" color={Color.MONO_100} id={rankingA11yId} typography={Typography.NORMAL20} weight="bold">
             ランキング
           </Text>
