@@ -29,8 +29,10 @@ const _SearchLink = styled(Link)`
 `;
 
 const _Image = styled.img`
-  width: 100%;
-  height: auto;
+  (max-width: 1024px) {
+    width: 100vw;
+  },
+  height: 1024px;
 `;
 
 export const CoverSection: React.FC = () => {
@@ -40,6 +42,8 @@ export const CoverSection: React.FC = () => {
         alt="Cyber-Toon"
         loading='eager'
         src="/assets/hero.webp"
+        height={576}
+        width={1024}
       />
       <_SearchLink href="/search">
         {/* <SvgIcon color={Color.MONO_A} height={24} type="Search" width={24} /> */}
