@@ -3,7 +3,6 @@ import { useInterval, useUpdate } from 'react-use';
 import styled from 'styled-components';
 
 import { ComicViewerCore } from '../../../features/viewer/components/ComicViewerCore';
-import { addUnitIfNeeded } from '../../../lib/css/addUnitIfNeeded';
 
 const IMAGE_WIDTH = 1075;
 const IMAGE_HEIGHT = 1518;
@@ -23,7 +22,7 @@ const _Wrapper = styled.div<{
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 100%;
-  max-height: ${({ $maxHeight }) => addUnitIfNeeded($maxHeight)};
+  max-height: ${({ $maxHeight }) => `${$maxHeight}px`};
   overflow: hidden;
 `;
 
@@ -34,7 +33,7 @@ type Props = {
 export const ComicViewer: React.FC<Props> = ({ episodeId }) => {
   // 画面のリサイズに合わせて再描画する
   const rerender = useUpdate();
-  useInterval(rerender, 0);
+  useInterval(rerender, 600);
 
   const [el, ref] = useState<HTMLDivElement | null>(null);
 
@@ -58,7 +57,7 @@ export const ComicViewer: React.FC<Props> = ({ episodeId }) => {
   return (
     <_Container ref={ref}>
       <_Wrapper $maxHeight={viewerHeight}>
-        <ComicViewerCore episodeId={episodeId} height={650} />
+        <ComicViewerCore episodeId={episodeId} height={viewerHeight} />
       </_Wrapper>
     </_Container>
   );
