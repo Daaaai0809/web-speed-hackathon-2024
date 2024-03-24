@@ -1,5 +1,5 @@
 type Params = {
-  format: 'avif' | 'webp' | 'png' | 'jpg' | 'jxl';
+  format: 'avif' | 'webp' | 'png' | 'jpg';
   height?: number;
   imageId: string;
   width?: number;
@@ -15,6 +15,8 @@ export function getImageUrl({ format, height, imageId, width }: Params): string 
   if (height != null) {
     url.searchParams.set('height', `${height}`);
   }
+
+  console.log(url.href)
 
   return url.href;
 }

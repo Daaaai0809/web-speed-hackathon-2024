@@ -13,6 +13,7 @@ import { readJpegXL } from './reader/readJpegXL';
 import { readPng } from './reader/readPng';
 import { writeJpegXL } from './writer/writeJpegXL';
 import { writePng } from './writer/writePng';
+import { writeWebP } from './writer/writeWebP';
 
 const program = new Command();
 
@@ -61,6 +62,58 @@ program
         path.parse(sourceImagePath).name + '.jxl',
       );
       await writeJpegXL({ filepath: exportImagePath, imageData: exportImageData });
+
+      progress.increment();
+    }
+
+    progress.stop();
+  });
+
+program
+  .command('encrypt:webp')
+  .argument('<input-directory>', 'the directory of the images to encrypt')
+  .argument('<output-directory>', 'the directory to output the encrypted images')
+  .action(async (inputDirectory: string, outputDirectory: string) => {
+    const progress = new SingleBar({
+      format: '[{bar}] {percentage}% | ETA: {eta}s | {value}/{total} | {filename}',
+    });
+
+    const imagePathList = await globby('**/*.png', {
+      absolute: true,
+      cwd: path.resolve(process.cwd(), inputDirectory),
+    });
+
+    progress.start(imagePathList.length, 0);
+
+    for (const sourceImagePath of imagePathList) {
+      progress.update({
+        filename: path.basename(sourceImagePath),
+      });
+
+      const sourceImageData = await readPng(sourceImagePath);
+
+      const sourceImage = await createImageFromImageData(sourceImageData);
+      const exportCanvasContext = await createCanvasContext({
+        height: sourceImageData.height,
+        width: sourceImageData.width,
+      });
+
+      await encrypt({
+        exportCanvasContext,
+        sourceImage,
+        sourceImageInfo: {
+          height: sourceImageData.height,
+          width: sourceImageData.width,
+        },
+      });
+
+      const exportImageData = exportCanvasContext.getImageData(0, 0, sourceImageData.width, sourceImageData.height);
+      const exportImagePath = path.resolve(
+        outputDirectory,
+        path.dirname(path.relative(inputDirectory, sourceImagePath)),
+        path.parse(sourceImagePath).name + '.webp',
+      );
+      await writeWebP({ filepath: exportImagePath, imageData: exportImageData });
 
       progress.increment();
     }

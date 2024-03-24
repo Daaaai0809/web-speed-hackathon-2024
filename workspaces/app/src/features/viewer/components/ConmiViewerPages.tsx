@@ -27,7 +27,7 @@ export const ComicViewerPages = ({ props }: Props) => {
         const canvasPromises = props.map(async (prop, index) => {
             const image = new Image();
             image.src = getImageUrl({
-                format: 'jxl',
+                format: 'webp',
                 imageId: prop.pageImageId,
             });
             await image.decode();
