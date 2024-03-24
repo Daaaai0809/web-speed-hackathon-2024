@@ -96,6 +96,7 @@ const _Wrapper = styled.div<{
 
 type Props = {
   episodeId: string;
+  height?: number;
 };
 
 const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
@@ -231,9 +232,9 @@ const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
   );
 };
 
-const ComicViewerCoreWithSuspense: React.FC<Props> = ({ episodeId }) => {
+const ComicViewerCoreWithSuspense: React.FC<Props> = ({ episodeId, height }) => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div style={{height: height}}></div>}>
       <ComicViewerCore episodeId={episodeId} />
     </Suspense>
   );
