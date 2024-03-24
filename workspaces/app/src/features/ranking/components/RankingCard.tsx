@@ -11,7 +11,6 @@ import { Separator } from '../../../foundation/components/Separator';
 import { Spacer } from '../../../foundation/components/Spacer';
 import { Text } from '../../../foundation/components/Text';
 import { Color, Radius, Space, Typography } from '../../../foundation/styles/variables';
-import { useBook } from '../../book/hooks/useBook';
 
 const _Wrapper = styled.li`
   width: 100%;
@@ -55,7 +54,7 @@ type Props = {
 const RankingCard: React.FC<Props> = ({ book, imageUrl, authorImageUrl }) => {
   return (
     <_Wrapper>
-      <_Link href={`/books/${book.id}`}>
+      <_Link to={`/books/${book.id}`}>
         <Spacer height={Space * 1.5} />
         <Flex align="flex-start" gap={Space * 2.5} justify="flex-start">
           {imageUrl != null && (

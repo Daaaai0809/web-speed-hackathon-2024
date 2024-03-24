@@ -45,7 +45,7 @@ export const CoverSection: React.FC = () => {
         height={576}
         width={1024}
       />
-      <_SearchLink href="/search">
+      <_SearchLink to="/search">
         {/* <SvgIcon color={Color.MONO_A} height={24} type="Search" width={24} /> */}
         <Search style={{ color: Color.MONO_A, height: 24, width: 24 }} />
         <Text color={Color.MONO_A} typography={Typography.NORMAL16}>
