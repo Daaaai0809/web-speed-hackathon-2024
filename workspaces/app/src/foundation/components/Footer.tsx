@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
   const updateDialogContent = useSetAtom(DialogContentAtom);
 
   const handleRequestToTermDialogOpen = async () => {
-    const TERM = await import('../constants/Term').then((module) => module.TERM);
+    const TERM = await fetch('/assets/Term.txt').then((module) => module.text());
 
     updateDialogContent(
       <_Content aria-labelledby={termDialogA11yId} role="dialog">
@@ -56,7 +56,7 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToContactDialogOpen = async () => {
-    const CONTACT = await import('../constants/Contact').then((module) => module.CONTACT);
+    const CONTACT = await fetch('/assets/Contact.txt').then((module) => module.text());
 
     updateDialogContent(
       <_Content aria-labelledby={contactDialogA11yId} role="dialog">
@@ -72,7 +72,7 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToQuestionDialogOpen = async () => {
-    const QUESTION = await import('../constants/Question').then((module) => module.QUESTION);
+    const QUESTION = await fetch('/assets/Question.txt').then((module) => module.text());
 
     updateDialogContent(
       <_Content aria-labelledby={questionDialogA11yId} role="dialog">
@@ -88,7 +88,7 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToCompanyDialogOpen = async () => {
-    const COMPANY = await import('../constants/Company').then((module) => module.COMPANY);
+    const COMPANY = await fetch('/assets/Company.txt').then((module) => module.text());
 
     updateDialogContent(
       <_Content aria-labelledby={companyDialogA11yId} role="dialog">
@@ -104,7 +104,7 @@ export const Footer: React.FC = () => {
   };
 
   const handleRequestToOverviewDialogOpen = async () => {
-    const OVERVIEW = await import('../constants/Overview').then((module) => module.OVERVIEW);
+    const OVERVIEW = await fetch('/assets/Overview.txt').then((module) => module.text());
 
     updateDialogContent(
       <_Content aria-labelledby={overviewDialogA11yId} role="dialog">
